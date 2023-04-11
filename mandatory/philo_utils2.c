@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 22:40:54 by nettalha          #+#    #+#             */
-/*   Updated: 2023/04/11 15:09:04 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/04/11 20:29:02 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	threads_create(t_philo *philos, pthread_t *threads)
 	while (i < philos->nb_ph)
 	{
 		philos[i].last_meal = get_time();
-		r = pthread_create(&threads[i], NULL, philos_routine, (void *)(&philos[i]));
+		r = pthread_create(&threads[i], NULL, philos_routine, (&philos[i]));
 		if (r)
 		{
 			printf("Failed to create thread %d\n", i);

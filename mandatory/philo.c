@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 11:42:00 by nettalha          #+#    #+#             */
-/*   Updated: 2023/04/11 15:28:34 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/04/11 20:30:22 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,18 @@ void	*philos_routine(void *void_philo)
 	while (1)
 	{
 		dine(ph);
-		pthread_mutex_lock(ph->mtx->mutex1);
+		//pthread_mutex_lock(ph->mtx->mutex1);
 		printf("%ld %d is sleeping\n", get_time() - ph->start_time, ph->id);
-		pthread_mutex_unlock(ph->mtx->mutex1);
+		//pthread_mutex_unlock(ph->mtx->mutex1);
 		ft_usleep(ph->t_to_sleep);
-		pthread_mutex_lock(ph->mtx->mutex1);
+		//pthread_mutex_lock(ph->mtx->mutex1);
 		printf("%ld %d is thinking\n", get_time() - ph->start_time, ph->id);
-		pthread_mutex_unlock(ph->mtx->mutex1);
+		//pthread_mutex_unlock(ph->mtx->mutex1);
 	}
 }
 
 void	init_all(t_philo *ph, t_info info)
 {
-	ph->mtx = (t_mutex *)malloc(sizeof(t_mutex));
 	ft_init_vars(ph, &info);
 	ft_init_mutex(ph);
 }
@@ -64,7 +63,6 @@ int	main(int ac, char **av)
 	(void)threads;
 	t_philo			*philo;
 	t_info			info;
-	// t_mutex			*mtx;
 
 	if (ac > 1 && check_args(av))
 	{
@@ -83,7 +81,7 @@ int	main(int ac, char **av)
 		}
 		threads_join(philo, threads);
 		destroy_mutex(&info, philo->mtx);
-		// ft_free(philo, philo->mtx, threads);
+		ft_free(philo, philo->mtx, threads);
 	}
 	return (0);
 }

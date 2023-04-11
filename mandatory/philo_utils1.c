@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 12:14:47 by nettalha          #+#    #+#             */
-/*   Updated: 2023/04/11 15:28:59 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/04/11 20:31:50 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,19 @@ int	is_died_or_full(t_philo *ph, t_info *info)
 	{
 		i = 0;
 		n = 0;
-		while (i < ph[i].nb_ph)
+		while (i < ph->nb_ph)
 		{
-			//pthread_mutex_lock(ph[i].mtx->mutex1);
+			//pthread_mutex_lock(ph[i].mtx->mutex2);
 			if (get_time() - ph[i].last_meal >= ph[i].t_to_die)
 			{
-				//pthread_mutex_lock(ph[i].mtx->mutex2);
+				//pthread_mutex_lock(ph[i].mtx->mutex1);
 				printf("%ld %d died\n", get_time() - ph[i].start_time, ph[i].id);
-				//pthread_mutex_unlock(ph[i].mutex);
+				//pthread_mutex_unlock(ph[i].mtx->mutex1);
 				return (0);
 			}
 			if (ph[i].m != 0 && ph[i].m >= ph[i].nb_m && ph[i].nb_m != -1)
 				n++;
-			//pthread_mutex_unlock(ph[i].mtx->mutex1);
+			//pthread_mutex_unlock(ph[i].mtx->mutex2);
 			i++;
 		}
 		if (n == info->nb_ph)
@@ -44,13 +44,14 @@ int	is_died_or_full(t_philo *ph, t_info *info)
 void	ft_init_mutex(t_philo *ph)
 {
 	int	i;
+	ph->mtx = (t_mutex *)malloc(sizeof(t_mutex));
 	ph->mtx->forks = malloc(sizeof(pthread_mutex_t) * ph->nb_ph);
-	ph->mtx->mutex1 = malloc(sizeof(pthread_mutex_t));
+	//ph->mtx->mutex1 = malloc(sizeof(pthread_mutex_t));
 	//ph->mtx->mutex2 = malloc(sizeof(pthread_mutex_t));
-	if ((pthread_mutex_init(ph->mtx->mutex1, NULL)) < 0)
-		printf("init failed\n");
-	//if (pthread_mutex_init(ph->mtx->mutex2, NULL) < 0)
-	//	printf("init failed\n");
+	// if ((pthread_mutex_init(ph->mtx->mutex1, NULL)) < 0)
+	// 	printf("init failed\n");
+	// if (pthread_mutex_init(ph->mtx->mutex2, NULL) < 0)
+	// 	printf("init failed\n");
 	i = 0;
 	while (i < ph->nb_ph)
 	{
@@ -93,7 +94,7 @@ void	destroy_mutex(t_info *info, t_mutex	*mtx)
 		pthread_mutex_destroy(&mtx->forks[i]);
 		i++;
 	}
-	pthread_mutex_destroy(mtx->mutex1);
+	//pthread_mutex_destroy(mtx->mutex1);
 	//pthread_mutex_destroy(mtx->mutex2);
 }
 
