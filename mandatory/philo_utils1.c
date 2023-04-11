@@ -46,12 +46,10 @@ void	ft_init_mutex(t_philo *ph)
 	int	i;
 	ph->mtx = (t_mutex *)malloc(sizeof(t_mutex));
 	ph->mtx->forks = malloc(sizeof(pthread_mutex_t) * ph->nb_ph);
-	//ph->mtx->mutex1 = malloc(sizeof(pthread_mutex_t));
-	//ph->mtx->mutex2 = malloc(sizeof(pthread_mutex_t));
-	// if ((pthread_mutex_init(ph->mtx->mutex1, NULL)) < 0)
-	// 	printf("init failed\n");
-	// if (pthread_mutex_init(ph->mtx->mutex2, NULL) < 0)
-	// 	printf("init failed\n");
+	ph->mtx->mutex1 = malloc(sizeof(pthread_mutex_t));
+	ph->mtx->mutex2 = malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_init(ph->mtx->mutex1, NULL);
+	pthread_mutex_init(ph->mtx->mutex2, NULL);
 	i = 0;
 	while (i < ph->nb_ph)
 	{
@@ -94,8 +92,8 @@ void	destroy_mutex(t_info *info, t_mutex	*mtx)
 		pthread_mutex_destroy(&mtx->forks[i]);
 		i++;
 	}
-	//pthread_mutex_destroy(mtx->mutex1);
-	//pthread_mutex_destroy(mtx->mutex2);
+	pthread_mutex_destroy(mtx->mutex1);
+	pthread_mutex_destroy(mtx->mutex2);
 }
 
 void	ft_free(t_philo *ph, t_mutex *mtx, pthread_t *th)

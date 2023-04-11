@@ -12,19 +12,18 @@
 
 NAME		= philo
 SRCS		= philo.c philo_utils1.c philo_utils2.c utils.c
-OBJS		= ${SRCS:.c=.o}
 
 CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror -pthread -fsanitize=address -g
+CFLAGS	= -Wall -Wextra -Werror -pthread
 RM		= rm -f
 
 all:		${NAME}
 
-${NAME}:	${OBJS}
+${NAME}:	${SRCS}
 			$(CC) $(CFLAGS) $^ -o $@
 
 clean:
-			$(RM) ${OBJS}
+			$(RM)
 
 fclean:	clean
 			$(RM) ${NAME}
