@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 11:42:00 by nettalha          #+#    #+#             */
-/*   Updated: 2023/04/12 22:21:00 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/04/12 23:01:26 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,14 @@ void	*philos_routine(void *void_philo)
 	t_philo	*ph;
 
 	ph = (t_philo *)void_philo;
-	printf("%ld %d is thinking\n", get_time() - ph->start_time, ph->id);
 	if (ph->id % 2 == 0)
 		ft_usleep(1.5);
 	while (1)
 	{
+		print_state(*ph, "is thinking");
 		dine(ph);
-		pthread_mutex_lock(&ph->mutex1);
-		printf("%ld %d is sleeping\n", get_time() - ph->start_time, ph->id);
-		pthread_mutex_unlock(&ph->mutex1);
+		print_state(*ph, "is sleeping");
 		ft_usleep(ph->t_to_sleep);
-		pthread_mutex_lock(&ph->mutex1);
-		printf("%ld %d is thinking\n", get_time() - ph->start_time, ph->id);
-		pthread_mutex_unlock(&ph->mutex1);
 	}
 }
 

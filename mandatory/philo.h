@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 11:41:56 by nettalha          #+#    #+#             */
-/*   Updated: 2023/04/12 21:45:49 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/04/12 22:39:12 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,5 @@ void	threads_create(t_philo *philos, pthread_t	*threads);
 void	threads_join(t_philo *philos, pthread_t *threads);
 void	threads_detach(t_philo *philos, pthread_t *threads);
 void	*philos_routine(void *void_philo);
+void	print_state(t_philo ph, char *state);
 #endif

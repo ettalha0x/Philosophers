@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 12:14:47 by nettalha          #+#    #+#             */
-/*   Updated: 2023/04/12 22:27:38 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/04/12 22:39:40 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,7 @@ int	is_died_or_full(t_philo *ph, t_info *info)
 			pthread_mutex_lock(&ph[i].mutex2);
 			if (get_time() - ph[i].last_meal >= ph[i].t_to_die)
 			{
-				pthread_mutex_lock(&ph[i].mutex1);
-				printf("%ld %d died\n", get_time() - ph[i].start_time, ph[i].id);
-				pthread_mutex_unlock(&ph[i].mutex1);
+				print_state(ph[i], "died");
 				return (0);
 			}
 			pthread_mutex_unlock(&ph[i].mutex2);
@@ -46,6 +44,7 @@ int	is_died_or_full(t_philo *ph, t_info *info)
 void	ft_init_mutex(t_philo *ph, pthread_mutex_t *forks)
 {
 	int	i;
+
 	i = 0;
 	while (i < ph->nb_ph)
 	{
