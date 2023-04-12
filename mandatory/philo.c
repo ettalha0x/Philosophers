@@ -19,13 +19,13 @@ void	dine(t_philo *ph)
 	pthread_mutex_lock(ph->left_fork);
 	printf("%ld %d has taken a fork\n", get_time() - ph->start_time, ph->id);
 	printf("%ld %d is eating\n", get_time() - ph->start_time, ph->id);
-	//pthread_mutex_lock(ph->mtx->mutex2);
+	pthread_mutex_lock(&ph->mutex2);
 	ph->last_meal = get_time();
-	//pthread_mutex_unlock(ph->mtx->mutex2);
+	pthread_mutex_unlock(&ph->mutex2);
 	ft_usleep(ph->t_to_eat);
-	//pthread_mutex_lock(ph->mtx->mutex2);
+	pthread_mutex_lock(&ph->mutex2);
 	ph->m++;
-	// pthread_mutex_unlock(ph->mtx->mutex2);
+	pthread_mutex_unlock(&ph->mutex2);
 	pthread_mutex_unlock(ph->right_fork);
 	pthread_mutex_unlock(ph->left_fork);
 }
@@ -41,26 +41,26 @@ void	*philos_routine(void *void_philo)
 	while (1)
 	{
 		dine(ph);
-		//pthread_mutex_lock(ph->mtx->mutex1);
+		pthread_mutex_lock(&ph->mutex1);
 		printf("%ld %d is sleeping\n", get_time() - ph->start_time, ph->id);
-		//pthread_mutex_unlock(ph->mtx->mutex1);
+		pthread_mutex_unlock(&ph->mutex1);
 		ft_usleep(ph->t_to_sleep);
-		//pthread_mutex_lock(ph->mtx->mutex1);
+		pthread_mutex_lock(&ph->mutex1);
 		printf("%ld %d is thinking\n", get_time() - ph->start_time, ph->id);
-		//pthread_mutex_unlock(ph->mtx->mutex1);
+		pthread_mutex_unlock(&ph->mutex1);
 	}
 }
 
-void	init_all(t_philo *ph, t_info info)
+void	init_all(t_philo *ph, t_info *info, pthread_mutex_t	*forks)
 {
-	ft_init_vars(ph, &info);
-	ft_init_mutex(ph);
+	ft_init_vars(ph, info);
+	ft_init_mutex(ph, forks);
 }
 
 int	main(int ac, char **av)
 {
 	pthread_t		*threads;
-	(void)threads;
+	pthread_mutex_t	*forks;
 	t_philo			*philo;
 	t_info			info;
 
@@ -69,19 +69,19 @@ int	main(int ac, char **av)
 		init_vars(av, &info);
 		threads = malloc(sizeof(pthread_t) * info.nb_ph);
 		philo = malloc(sizeof(t_philo) * info.nb_ph);
-		philo->mtx = malloc(sizeof(t_mutex));
-		init_all(philo, info);
+		forks = malloc(sizeof(pthread_mutex_t) * info.nb_ph);
+		init_all(philo, &info, forks);
 		threads_create(philo, threads);
 		if (!is_died_or_full(philo, &info))
 		{
 			threads_detach(philo, threads);
-			destroy_mutex(&info, philo->mtx);
-			ft_free(philo, philo->mtx, threads);
+			destroy_mutex(philo, forks);
+			ft_free(philo, threads, forks);
 			return (1);
 		}
-		threads_join(philo, threads);
-		destroy_mutex(&info, philo->mtx);
-		ft_free(philo, philo->mtx, threads);
+		// threads_join(philo, threads);
+		// destroy_mutex(&info, philo->mtx);
+		// ft_free(philo, philo->mtx, threads);
 	}
 	return (0);
 }

@@ -15,6 +15,7 @@ SRCS		= philo.c philo_utils1.c philo_utils2.c utils.c
 
 CC		= gcc
 CFLAGS	= -Wall -Wextra -Werror -pthread
+#-fsanitize=address
 RM		= rm -f
 
 all:		${NAME}

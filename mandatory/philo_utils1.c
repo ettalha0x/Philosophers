@@ -23,39 +23,35 @@ int	is_died_or_full(t_philo *ph, t_info *info)
 		n = 0;
 		while (i < ph->nb_ph)
 		{
-			//pthread_mutex_lock(ph[i].mtx->mutex2);
+			pthread_mutex_lock(&ph[i].mutex2);
 			if (get_time() - ph[i].last_meal >= ph[i].t_to_die)
 			{
-				//pthread_mutex_lock(ph[i].mtx->mutex1);
+				pthread_mutex_lock(&ph[i].mutex1);
 				printf("%ld %d died\n", get_time() - ph[i].start_time, ph[i].id);
-				//pthread_mutex_unlock(ph[i].mtx->mutex1);
+				pthread_mutex_unlock(&ph[i].mutex1);
 				return (0);
 			}
 			if (ph[i].m != 0 && ph[i].m >= ph[i].nb_m && ph[i].nb_m != -1)
 				n++;
-			//pthread_mutex_unlock(ph[i].mtx->mutex2);
+			pthread_mutex_unlock(&ph[i].mutex2);
 			i++;
 		}
 		if (n == info->nb_ph)
 			return (0);
 	}
 }
-
-void	ft_init_mutex(t_philo *ph)
+void	ft_init_mutex(t_philo *ph, pthread_mutex_t *forks)
 {
 	int	i;
-	ph->mtx = (t_mutex *)malloc(sizeof(t_mutex));
-	ph->mtx->forks = malloc(sizeof(pthread_mutex_t) * ph->nb_ph);
-	ph->mtx->mutex1 = malloc(sizeof(pthread_mutex_t));
-	ph->mtx->mutex2 = malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(ph->mtx->mutex1, NULL);
-	pthread_mutex_init(ph->mtx->mutex2, NULL);
+
+	pthread_mutex_init(&(ph->mutex1), NULL);
+	pthread_mutex_init(&(ph->mutex2), NULL);
 	i = 0;
 	while (i < ph->nb_ph)
 	{
-		pthread_mutex_init(&ph->mtx->forks[i], NULL);
-		ph[i].right_fork = &ph->mtx->forks[i];
-		ph[i].left_fork = &ph->mtx->forks[(i + 1) % ph->nb_ph];
+		pthread_mutex_init(&forks[i], NULL);
+		ph[i].right_fork = &forks[i];
+		ph[i].left_fork = &forks[(i + 1) % ph->nb_ph];
 		i++;
 	}
 }
@@ -82,24 +78,23 @@ void	ft_init_vars(t_philo *ph, t_info *info)
 	}
 }
 
-void	destroy_mutex(t_info *info, t_mutex	*mtx)
+void	destroy_mutex(t_philo *philo, pthread_mutex_t *forks)
 {
 	int	i;
 
 	i = 0;
-	while (i < info->nb_ph)
+	while (i < philo->nb_ph)
 	{
-		pthread_mutex_destroy(&mtx->forks[i]);
+		pthread_mutex_destroy(&forks[i]);
 		i++;
 	}
-	pthread_mutex_destroy(mtx->mutex1);
-	pthread_mutex_destroy(mtx->mutex2);
+	pthread_mutex_destroy(&philo->mutex1);
+	pthread_mutex_destroy(&philo->mutex2);
 }
 
-void	ft_free(t_philo *ph, t_mutex *mtx, pthread_t *th)
+void	ft_free(t_philo *ph, pthread_t *th, pthread_mutex_t *forks)
 {
+	free(forks);
 	free(th);
 	free(ph);
-	free(mtx->forks);
-	free(mtx);
 }
