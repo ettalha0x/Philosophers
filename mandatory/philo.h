@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 11:41:56 by nettalha          #+#    #+#             */
-/*   Updated: 2023/04/11 15:26:40 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/04/12 21:45:49 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_philo
 	void			*left_fork;
 	pthread_mutex_t	mutex1;
 	pthread_mutex_t	mutex2;
+	pthread_mutex_t	mutex3;
 }t_philo;
 
 typedef struct s_info

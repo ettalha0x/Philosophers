@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 12:14:47 by nettalha          #+#    #+#             */
-/*   Updated: 2023/04/11 20:31:50 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/04/12 21:50:06 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,11 @@ int	is_died_or_full(t_philo *ph, t_info *info)
 				pthread_mutex_unlock(&ph[i].mutex1);
 				return (0);
 			}
+			pthread_mutex_unlock(&ph[i].mutex2);
+			pthread_mutex_lock(&ph[i].mutex3);
 			if (ph[i].m != 0 && ph[i].m >= ph[i].nb_m && ph[i].nb_m != -1)
 				n++;
-			pthread_mutex_unlock(&ph[i].mutex2);
+			pthread_mutex_unlock(&ph[i].mutex3);
 			i++;
 		}
 		if (n == info->nb_ph)
@@ -47,6 +49,7 @@ void	ft_init_mutex(t_philo *ph, pthread_mutex_t *forks)
 
 	pthread_mutex_init(&(ph->mutex1), NULL);
 	pthread_mutex_init(&(ph->mutex2), NULL);
+	pthread_mutex_init(&(ph->mutex3), NULL);
 	i = 0;
 	while (i < ph->nb_ph)
 	{
@@ -91,6 +94,7 @@ void	destroy_mutex(t_philo *philo, pthread_mutex_t *forks)
 	}
 	pthread_mutex_destroy(&philo->mutex1);
 	pthread_mutex_destroy(&philo->mutex2);
+	pthread_mutex_destroy(&philo->mutex3);
 }
 
 void	ft_free(t_philo *ph, pthread_t *th, pthread_mutex_t *forks)

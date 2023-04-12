@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 11:42:00 by nettalha          #+#    #+#             */
-/*   Updated: 2023/04/11 20:30:22 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/04/12 22:05:41 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	dine(t_philo *ph)
 	ph->last_meal = get_time();
 	pthread_mutex_unlock(&ph->mutex2);
 	ft_usleep(ph->t_to_eat);
-	pthread_mutex_lock(&ph->mutex2);
+	pthread_mutex_lock(&ph->mutex3);
 	ph->m++;
-	pthread_mutex_unlock(&ph->mutex2);
+	pthread_mutex_unlock(&ph->mutex3);
 	pthread_mutex_unlock(ph->right_fork);
 	pthread_mutex_unlock(ph->left_fork);
 }

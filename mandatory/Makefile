@@ -6,7 +6,7 @@
 #    By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/10 12:32:12 by nettalha          #+#    #+#              #
-#    Updated: 2023/04/11 18:54:17 by nettalha         ###   ########.fr        #
+#    Updated: 2023/04/12 22:06:07 by nettalha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,6 @@ SRCS		= philo.c philo_utils1.c philo_utils2.c utils.c
 
 CC		= gcc
 CFLAGS	= -Wall -Wextra -Werror -pthread
-#-fsanitize=address
 RM		= rm -f
 
 all:		${NAME}
