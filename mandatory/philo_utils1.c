@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 12:14:47 by nettalha          #+#    #+#             */
-/*   Updated: 2023/04/12 21:50:06 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/04/12 22:27:38 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,12 @@ int	is_died_or_full(t_philo *ph, t_info *info)
 void	ft_init_mutex(t_philo *ph, pthread_mutex_t *forks)
 {
 	int	i;
-
-	pthread_mutex_init(&(ph->mutex1), NULL);
-	pthread_mutex_init(&(ph->mutex2), NULL);
-	pthread_mutex_init(&(ph->mutex3), NULL);
 	i = 0;
 	while (i < ph->nb_ph)
 	{
+		pthread_mutex_init(&(ph[i].mutex1), NULL);
+		pthread_mutex_init(&(ph[i].mutex2), NULL);
+		pthread_mutex_init(&(ph[i].mutex3), NULL);
 		pthread_mutex_init(&forks[i], NULL);
 		ph[i].right_fork = &forks[i];
 		ph[i].left_fork = &forks[(i + 1) % ph->nb_ph];
