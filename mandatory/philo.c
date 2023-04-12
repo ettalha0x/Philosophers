@@ -79,9 +79,6 @@ int	main(int ac, char **av)
 			ft_free(philo, threads, forks);
 			return (1);
 		}
-		// threads_join(philo, threads);
-		// destroy_mutex(&info, philo->mtx);
-		// ft_free(philo, philo->mtx, threads);
 	}
 	return (0);
 }

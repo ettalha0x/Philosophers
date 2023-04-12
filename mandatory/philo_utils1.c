@@ -40,6 +40,7 @@ int	is_died_or_full(t_philo *ph, t_info *info)
 			return (0);
 	}
 }
+
 void	ft_init_mutex(t_philo *ph, pthread_mutex_t *forks)
 {
 	int	i;

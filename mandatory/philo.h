@@ -21,20 +21,19 @@
 
 typedef struct s_philo
 {
-	int		id;
-	int		t_to_eat;
-	int		t_to_sleep;
-	int		t_to_die;
-	long	last_meal;
-	long	start_time;
-	int		nb_m;
-	int		m;
-	int		nb_ph;
-	void	*right_fork;
-	void	*left_fork;
+	int				id;
+	int				t_to_eat;
+	int				t_to_sleep;
+	int				t_to_die;
+	long			last_meal;
+	long			start_time;
+	int				nb_m;
+	int				m;
+	int				nb_ph;
+	void			*right_fork;
+	void			*left_fork;
 	pthread_mutex_t	mutex1;
 	pthread_mutex_t	mutex2;
-	struct s_mutex *mtx;
 }t_philo;
 
 typedef struct s_info
