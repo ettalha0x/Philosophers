@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 22:40:42 by nettalha          #+#    #+#             */
-/*   Updated: 2023/04/11 01:32:46 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/04/13 01:48:42 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,33 +19,36 @@ void	*is_died_or_full(void *void_ph)
 	ph = (t_philo *)void_ph;
 	while (1)
 	{
-		sem_wait(ph->sem1);
+		sem_wait(ph->sem2);
 		if (get_time() - ph->last_meal >= ph->t_to_die)
 		{
-			sem_wait(ph->sem0);
-			printf("%ld %d died\n", get_time() - ph->start_time, ph->id);
+			print_state(*ph, "died");
 			exit(0);
 		}
+		sem_post(ph->sem2);
+		sem_wait(ph->sem3);
 		if (ph->m != 0 && ph->m >= ph->nb_m && ph->nb_m != -1)
 			exit(0);
-		sem_post(ph->sem1);
+		sem_post(ph->sem3);
 	}
 }
 
-void	ft_init_sem(t_philo *ph, void *s0, void *s1, sem_t *f)
+void	ft_init_sem(t_philo *ph, t_sem *sem)
 {
 	int	i;
 
-	sem_open(s0, 1, 1);
-	sem_open(s1, 1, 1);
+	sem->sem1 = sem_open("/sem1", O_CREAT | O_EXCL, 0666, 1);
+	sem->sem2 = sem_open("/sem2", O_CREAT | O_EXCL, 0666, 1);
+	sem->sem3 = sem_open("/sem3", O_CREAT | O_EXCL, 0666, 1);
+	sem->forks = sem_open("/fork", O_CREAT | O_EXCL, 0666, ph->nb_ph);
 	i = 0;
-	while (i < ph[i].nb_ph)
+	while (i < ph->nb_ph)
 	{
-		ph[i].sem0 = s0;
-		ph[i].sem1 = s1;
-		sem_open((void*)&f[i], 1, 1);
-		ph[i].right_fork = &f[i];
-		ph[i].left_fork = &f[(i + 1) % ph[i].nb_ph];
+		ph[i].sem1 = &sem->sem1;
+		ph[i].sem2 = &sem->sem2;
+		ph[i].sem3 = &sem->sem3;
+		ph[i].right_fork = &sem->forks;
+		ph[i].left_fork = &sem->forks;
 		i++;
 	}
 }
@@ -72,24 +75,24 @@ void	ft_init_vars(t_philo *ph, t_info *info)
 	}
 }
 
-void	destroy_sem(t_info *info, t_sem	*sem)
+void	destroy_sem(t_philo *philo, t_sem *sem)
 {
 	int	i;
 
 	i = 0;
-	while (i < info->nb_ph)
+	while (i < philo->nb_ph)
 	{
 		sem_close(&sem->forks[i]);
 		i++;
 	}
-	sem_close(&sem->sem0);
-	sem_close(&sem->sem1);
+	sem_close(sem->sem1);
+	sem_close(sem->sem2);
+	sem_close(sem->sem3);
 }
 
-void	ft_free(t_philo *ph, t_sem *sem, pthread_t *th)
+void	ft_frre(t_philo *ph, pthread_t *th, t_sem *sem)
 {
+	(void)sem;
 	free(th);
 	free(ph);
-	free(sem->forks);
-	free(sem);
 }
