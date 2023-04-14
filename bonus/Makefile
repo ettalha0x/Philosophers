@@ -1,6 +1,5 @@
 NAME		= philo_bonus
 SRCS		= philo_bonus.c philo_bonus_utils1.c  philo_bonus_utils2.c bonus_utils.c
-OBJS		= ${SRCS:.c=.o}
 
 CC		= gcc
 CFLAGS	= -Wall -Wextra -Werror -pthread
@@ -8,7 +7,7 @@ RM		= rm -f
 
 all:		${NAME}
 
-${NAME}:	${OBJS}
+${NAME}:	${SRCS}
 			$(CC) $(CFLAGS) $^ -o $@
 
 clean:

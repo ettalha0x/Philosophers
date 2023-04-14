@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 11:42:00 by nettalha          #+#    #+#             */
-/*   Updated: 2023/04/12 23:01:26 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/04/14 17:28:02 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 void	dine(t_philo *ph)
 {
 	pthread_mutex_lock(ph->right_fork);
-	printf("%ld %d has taken a fork\n", get_time() - ph->start_time, ph->id);
+	print_state(*ph, "has taken a fork");
 	pthread_mutex_lock(ph->left_fork);
-	printf("%ld %d has taken a fork\n", get_time() - ph->start_time, ph->id);
-	printf("%ld %d is eating\n", get_time() - ph->start_time, ph->id);
+	print_state(*ph, "has taken a fork");
+	print_state(*ph, "is eating");
 	pthread_mutex_lock(&ph->mutex2);
 	ph->last_meal = get_time();
 	pthread_mutex_unlock(&ph->mutex2);
