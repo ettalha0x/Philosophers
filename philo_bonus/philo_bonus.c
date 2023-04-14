@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 22:40:08 by nettalha          #+#    #+#             */
-/*   Updated: 2023/04/14 16:14:08 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/04/14 18:02:07 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	main(int ac, char **av)
 	t_info			info;
 	int				i;
 	int				status;
+	int				skipe_id;
 
 	if (ac > 1 && check_args(av))
 	{
@@ -66,11 +67,12 @@ int	main(int ac, char **av)
 		philo->pid = malloc(sizeof(pid_t) * info.nb_ph);
 		init_all(philo, &info);
 		process_create(philo);
-		waitpid(-1, &status, 0);
+		skipe_id = waitpid(-1, &status, 0);
 		i = 0;
 		while (i < philo->nb_ph)
 		{
-			kill(philo->pid[i], SIGTERM);
+			if (philo->pid[i] != skipe_id)
+				kill(philo->pid[i], SIGTERM);
 			i++;
 		}
 		ft_free(philo);
