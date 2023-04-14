@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 22:41:21 by nettalha          #+#    #+#             */
-/*   Updated: 2023/04/13 01:44:55 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/04/14 16:14:25 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,3 @@ void	print_state(t_philo ph, char *state)
 	printf("%ld %d %s\n", get_time() - ph.start_time, ph.id, state);
 	sem_post(ph.sem1);
 }
-

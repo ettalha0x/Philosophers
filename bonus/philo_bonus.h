@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 11:41:56 by nettalha          #+#    #+#             */
-/*   Updated: 2023/04/14 11:15:12 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/04/14 16:12:51 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 # include<stdlib.h>
 # include<stdio.h>
 # include<pthread.h>
-#include <semaphore.h>
-#include <signal.h>
+# include <semaphore.h>
+# include <signal.h>
 # include<sys/time.h>
 
 typedef struct s_philo
@@ -33,20 +33,11 @@ typedef struct s_philo
 	int		m;
 	int		nb_ph;
 	pid_t	*pid;
-	void	*right_fork;
-	void	*left_fork;
-	void	*sem1;
-	void	*sem2;
-	void	*sem3;
-}t_philo;
-
-typedef struct	s_sem
-{
 	sem_t	*forks;
 	sem_t	*sem1;
 	sem_t	*sem2;
 	sem_t	*sem3;
-}t_sem;
+}t_philo;
 
 typedef struct s_info
 {
@@ -62,11 +53,10 @@ void	*is_died_or_full(void *void_ph);
 int		ft_atoi(const char *str);
 void	ft_init_vars(char **av, t_info *info);
 void	ft_init_philo(t_philo *ph, t_info *info);
-void	destroy_sem(t_philo *philo, t_sem *sem);
+void	destroy_sem(t_philo *philo);
 void	ft_free(t_philo *ph, pthread_t *th, sem_t *forks);
-void	ft_init_sem(t_philo *ph, t_sem *sem);
+void	ft_init_sem(t_philo *ph);
 void	process_create(t_philo *philos);
 void	philos_routine(t_philo *ph);
 void	print_state(t_philo ph, char *state);
-//void	threads_detach(t_philo *philos, pthread_t *threads);
 #endif

@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 22:40:58 by nettalha          #+#    #+#             */
-/*   Updated: 2023/04/14 11:17:24 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/04/14 15:32:35 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	process_create(t_philo *ph)
 			philos_routine(ph);
 		}
 		i++;
+		ft_usleep(1);
 	}
-	ft_usleep(1);
 }
 
 void	ft_init_vars(char **av, t_info *info)

@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 22:40:42 by nettalha          #+#    #+#             */
-/*   Updated: 2023/04/14 11:12:43 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/04/14 16:02:47 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,34 +17,33 @@ void	*is_died_or_full(void *void_ph)
 	t_philo	*ph;
 
 	ph = (t_philo *)void_ph;
-	usleep(10000);
 	while (1)
 	{
 		sem_wait(ph->sem2);
 		if (get_time() - ph->last_meal >= ph->t_to_die)
 		{
-			print_state(*ph, "died");
+			sem_wait(ph->sem1);
+			printf("%ld %d died\n", get_time() - ph->start_time, ph->id);
 			exit(0);
 		}
 		sem_post(ph->sem2);
 		sem_wait(ph->sem3);
-		if (ph->m != 0 && ph->m >= ph->nb_m && ph->nb_m != -1)
+		if (ph->m != 0 && ph->m > ph->nb_m + 1 && ph->nb_m != -1)
 			exit(0);
 		sem_post(ph->sem3);
 	}
 }
 
-void	ft_init_sem(t_philo *ph, t_sem *sem)
+void	ft_init_sem(t_philo *ph)
 {
-	sem->sem1 = sem_open("/sem1", O_CREAT | O_EXCL, 0666, 1);
-	sem->sem2 = sem_open("/sem2", O_CREAT | O_EXCL, 0666, 1);
-	sem->sem3 = sem_open("/sem3", O_CREAT | O_EXCL, 0666, 1);
-	sem->forks = sem_open("/fork", O_CREAT | O_EXCL, 0666, ph->nb_ph);
-	ph->sem1 = &sem->sem1;
-	ph->sem2 = &sem->sem2;
-	ph->sem3 = &sem->sem3;
-	ph->right_fork = &sem->forks;
-	ph->left_fork = &sem->forks;
+	sem_unlink("/sem1");
+	ph->sem1 = sem_open("/sem1", O_CREAT | O_EXCL, 0666, 1);
+	sem_unlink("/sem2");
+	ph->sem2 = sem_open("/sem2", O_CREAT | O_EXCL, 0666, 1);
+	sem_unlink("/sem3");
+	ph->sem3 = sem_open("/sem3", O_CREAT | O_EXCL, 0666, 1);
+	sem_unlink("/fork");
+	ph->forks = sem_open("/fork", O_CREAT | O_EXCL, 0666, ph->nb_ph);
 }
 
 void	ft_init_philo(t_philo *ph, t_info *info)
@@ -62,24 +61,23 @@ void	ft_init_philo(t_philo *ph, t_info *info)
 	ph->t_to_sleep = info->time_to[2];
 }
 
-void	destroy_sem(t_philo *philo, t_sem *sem)
+void	destroy_sem(t_philo *philo)
 {
 	int	i;
 
 	i = 0;
 	while (i < philo->nb_ph)
 	{
-		sem_close(&sem->forks[i]);
+		sem_close(&philo->forks[i]);
 		i++;
 	}
-	sem_close(sem->sem1);
-	sem_close(sem->sem2);
-	sem_close(sem->sem3);
+	sem_close(philo->sem1);
+	sem_close(philo->sem2);
+	sem_close(philo->sem3);
 }
 
-void	ft_frre(t_philo *ph, pthread_t *th, t_sem *sem)
+void	ft_frre(t_philo *ph, pthread_t *th)
 {
-	(void)sem;
 	free(th);
 	free(ph);
 }
