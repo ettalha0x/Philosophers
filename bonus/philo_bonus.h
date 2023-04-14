@@ -17,9 +17,11 @@
 # include<stdlib.h>
 # include<stdio.h>
 # include<pthread.h>
-# include <semaphore.h>
-# include <signal.h>
+# include<semaphore.h>
+# include<signal.h>
+# include<fcntl.h>
 # include<sys/time.h>
+# include<sys/wait.h>
 
 typedef struct s_philo
 {
@@ -54,7 +56,7 @@ int		ft_atoi(const char *str);
 void	ft_init_vars(char **av, t_info *info);
 void	ft_init_philo(t_philo *ph, t_info *info);
 void	destroy_sem(t_philo *philo);
-void	ft_free(t_philo *ph, pthread_t *th, sem_t *forks);
+void	ft_free(t_philo *ph);
 void	ft_init_sem(t_philo *ph);
 void	process_create(t_philo *philos);
 void	philos_routine(t_philo *ph);

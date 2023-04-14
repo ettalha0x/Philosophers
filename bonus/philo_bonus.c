@@ -70,9 +70,10 @@ int	main(int ac, char **av)
 		i = 0;
 		while (i < philo->nb_ph)
 		{
-			kill(philo->pid[i], SIGSEGV);
+			kill(philo->pid[i], SIGTERM);
 			i++;
 		}
+		ft_free(philo);
 	}
 	return (0);
 }

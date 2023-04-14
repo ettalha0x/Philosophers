@@ -63,21 +63,14 @@ void	ft_init_philo(t_philo *ph, t_info *info)
 
 void	destroy_sem(t_philo *philo)
 {
-	int	i;
-
-	i = 0;
-	while (i < philo->nb_ph)
-	{
-		sem_close(&philo->forks[i]);
-		i++;
-	}
+	sem_close(philo->forks);
 	sem_close(philo->sem1);
 	sem_close(philo->sem2);
 	sem_close(philo->sem3);
 }
 
-void	ft_frre(t_philo *ph, pthread_t *th)
+void	ft_free(t_philo *ph)
 {
-	free(th);
+	free(ph->pid);
 	free(ph);
 }
