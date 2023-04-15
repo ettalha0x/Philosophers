@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 11:41:56 by nettalha          #+#    #+#             */
-/*   Updated: 2023/04/15 15:45:33 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/04/15 23:38:11 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_philo
 
 long	get_time(void);
 void	ft_usleep(float time);
-int		is_died_or_full(t_philo *ph, t_info *info, pthread_t *th);
+int		is_died_or_full(t_philo *ph, t_info *info);
 int		ft_atoi(const char *str);
 int		check_args(char **av);
 void	init_vars(char **av, t_info *info);
@@ -61,5 +61,6 @@ void	threads_create(t_philo *philos, pthread_t	*threads);
 void	threads_join(t_philo *philos, pthread_t *threads);
 void	threads_detach(t_philo *philos, pthread_t *threads);
 void	*philos_routine(void *void_philo);
-void	print_state(t_philo ph, char *state);
+void	print_state(t_philo ph, char *state, int n);
+int		is_died(t_philo *ph, int i);
 #endif

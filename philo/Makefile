@@ -2,7 +2,7 @@ NAME		= philo
 SRCS		= philo.c philo_utils1.c philo_utils2.c utils.c
 
 CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror -pthread -fsanitize=thread -g
+CFLAGS	= -Wall -Wextra -Werror -pthread
 RM		= rm -f
 
 all:		${NAME}

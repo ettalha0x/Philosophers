@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 12:13:59 by nettalha          #+#    #+#             */
-/*   Updated: 2023/04/14 22:37:33 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/04/15 23:32:03 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,12 @@ int	check_args(char **av)
 	return (1);
 }
 
-void	print_state(t_philo ph, char *state)
+void	print_state(t_philo ph, char *state, int n)
 {
 	pthread_mutex_lock(ph.m1);
-	printf("%ld %d %s ==> %p\n", get_time() - ph.start_time, ph.id, state, ph.m1);
-	pthread_mutex_unlock(ph.m1);
+	printf("%ld %d %s\n", get_time() - ph.start_time, ph.id, state);
+	if (n == 1)
+		pthread_mutex_unlock(ph.m1);
+	else if (n == 0)
+		usleep(250000);
 }

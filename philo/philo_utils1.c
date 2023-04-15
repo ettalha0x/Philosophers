@@ -6,41 +6,22 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 12:14:47 by nettalha          #+#    #+#             */
-/*   Updated: 2023/04/15 15:07:34 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/04/15 23:39:51 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"philo.h"
 
-int	is_died_or_full(t_philo *ph, t_info *info, pthread_t *th)
+int	is_died(t_philo *ph, int i)
 {
-	int	i;
-	int	n;
-
-	while (1)
+	pthread_mutex_lock(ph[i].m2);
+	if (get_time() - ph[i].last_meal >= ph[i].t_to_die)
 	{
-		i = 0;
-		n = 0;
-		while (i < ph->nb_ph)
-		{
-			pthread_mutex_lock(ph[i].m2);
-			if (get_time() - ph[i].last_meal >= ph[i].t_to_die)
-			{
-				pthread_mutex_lock(ph[i].m1);
-				printf("%ld %d died ==>%p\n", get_time() - ph[i].start_time, ph[i].id, ph[i].m1);
-				threads_detach(ph, th);
-				return (0);
-			}
-			pthread_mutex_unlock(ph[i].m2);
-			pthread_mutex_lock(ph[i].m3);
-			if (ph[i].m != 0 && ph[i].m >= ph[i].nb_m && ph[i].nb_m != -1)
-				n++;
-			pthread_mutex_unlock(ph[i].m3);
-			i++;
-		}
-		if (n == info->nb_ph)
-			return (0);
+		print_state(ph[i], "died", 0);
+		return (0);
 	}
+	pthread_mutex_unlock(ph[i].m2);
+	return (1);
 }
 
 void	ft_init_mutex(t_philo *ph, t_info *info, pthread_mutex_t *forks)
