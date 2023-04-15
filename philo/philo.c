@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 11:42:00 by nettalha          #+#    #+#             */
-/*   Updated: 2023/04/14 23:55:03 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/04/15 15:21:17 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,9 @@ int	main(int ac, char **av)
 		threads_create(philo, threads);
 		if (!is_died_or_full(philo, &info, threads))
 		{
-			// threads_detach(philo, threads);
-			destroy_mutex(philo, &info, forks);
+			// threads_join(philo, threads);
+			threads_detach(philo, threads);
+			//destroy_mutex(philo, &info, forks);
 			ft_free(philo, threads, forks);
 			return (1);
 		}

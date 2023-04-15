@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 11:41:56 by nettalha          #+#    #+#             */
-/*   Updated: 2023/04/14 23:54:47 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/04/15 15:45:33 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ typedef struct s_philo
 	int				nb_m;
 	int				m;
 	int				nb_ph;
-	void			*right_fork;
-	void			*left_fork;
-	void			*m1;
-	void			*m2;
-	void			*m3;
+	pthread_mutex_t	*right_fork;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*m1;
+	pthread_mutex_t	*m2;
+	pthread_mutex_t	*m3;
 }t_philo;
 
 long	get_time(void);
